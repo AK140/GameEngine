@@ -18,7 +18,13 @@ public class Logger {
 
 	public void log(Level lvl, String msg) {
 		String log = "[" + getTime() + " " + lvl.getName() + "] " + msg + '\n';
-		System.out.print(log);
+		java.io.PrintStream logger;
+		if (lvl == Level.SEVERE || lvl == Level.WARNING) {
+			logger = System.err;
+		} else {
+			logger = System.out;
+		}
+		logger.print(log);
 		history.add(log);
 	}
 

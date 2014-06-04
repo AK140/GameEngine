@@ -2,9 +2,15 @@ package io.github.lambo993.engine;
 
 import java.awt.*;
 import java.awt.image.*;
-
 import javax.swing.*;
 
+/**
+ * A game engine
+ * @author Lambo993
+ * @version 1.1.0
+ * @since 5/4/2014
+ * @serial 5832158247289767468L
+ */
 public abstract class Engine extends JFrame implements Runnable {
 
 	private static final long serialVersionUID = 8091963846194630714L;
@@ -19,6 +25,14 @@ public abstract class Engine extends JFrame implements Runnable {
 		this(null, 0, 0, false);
 	}
 
+	/**
+	 * Construct a window
+	 * @param title Title for the window
+	 * @param width The width for the window
+	 * @param height The height for the window
+	 * @param createWindows true if create Window false if not
+	 * @throws HeadlessException
+	 */
 	protected Engine(String title, int width, int height, boolean createWindows) throws HeadlessException {
 		if (createWindows) {
 			setEnabled(true);
@@ -32,7 +46,7 @@ public abstract class Engine extends JFrame implements Runnable {
 	}
 
 	@Override
-	public void paint(Graphics g) {
+	public final void paint(Graphics g) {
 		BufferedImage dbImg = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics2D dbg = dbImg.createGraphics();
 		draw(dbg);
@@ -46,7 +60,7 @@ public abstract class Engine extends JFrame implements Runnable {
 	 * @param path Path to the Image File
 	 * @param useDirectory true for load image in jar false for comp directory
 	 * @return the loaded <code>Image</code> object
-	 * @since version 1.7.8_Alpha
+	 * @since version 1.0
 	 */
 	public static Image loadImage(String path, boolean useDirectory) {
 		if (path == null) {
@@ -74,7 +88,7 @@ public abstract class Engine extends JFrame implements Runnable {
 	 * Plays The sound
 	 * @param path Path to the Sound File
 	 * @param loop How Many Times The Sound Loop
-	 * @since version 1.7.4_Alpha
+	 * @since version 1.0
 	 */
 	public static void playSound(final String path, final int loop) {
 		try {
@@ -96,10 +110,10 @@ public abstract class Engine extends JFrame implements Runnable {
 	}
 
 	/**
-	 * Delays the bullet shooting
+	 * Delays the button pressing
 	 * @param delay How much the delay in Milliseconds
 	 * @return True if it's longer than the delay time false otherwise
-	 * @since version 1.7.5_Alpha
+	 * @since version 1.0
 	 */
 	public static boolean delayButton(long delay) {
 		if (System.currentTimeMillis() - lastPressMs  < delay) {
@@ -114,15 +128,15 @@ public abstract class Engine extends JFrame implements Runnable {
 		if (isEnabled() != enabled) {
 			isEnabled = enabled;
 
-			if (isEnabled) {
-				onEnable();
-			} else {
-				try {
+			try {
+				if (isEnabled) {
+					onEnable();
+				} else {
 					onDisable();
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Error on disabling forcing close", "Disabling Error", JOptionPane.ERROR_MESSAGE);
-					System.exit(0);
 				}
+			} catch (Exception ex) {
+				LOGGER.severe("Error on enabling/disabling Forcing shutdown");
+				System.exit(0);
 			}
 		}
 	}
@@ -139,9 +153,9 @@ public abstract class Engine extends JFrame implements Runnable {
 	/**
 	 * Gets the score
 	 * @return The Value of the Score
-	 * @since version 1.4_Alpha
+	 * @since version 1.0
 	 */
-	public int getScore() {
+	public final int getScore() {
 		if (score < 0) {
 			score = 0;
 		}
@@ -151,9 +165,9 @@ public abstract class Engine extends JFrame implements Runnable {
 	/**
 	 * Sets the score
 	 * @param score sets the score
-	 * @since version 1.4_Alpha
+	 * @since version 1.0
 	 */
-	public void setScore(int newScore) {
+	public final void setScore(int newScore) {
 		score = newScore;
 	}
 
@@ -161,9 +175,9 @@ public abstract class Engine extends JFrame implements Runnable {
 	 * For adding scores
 	 * @param addScore Adds the score
 	 * @throws IllegalArgumentException When using negatives to <code>addScore</code>
-	 * @since version 1.5_Alpha
+	 * @since version 1.0
 	 */
-	public void addScore(int addScore) {
+	public final void addScore(int addScore) {
 		score += addScore;
 		if (addScore < 0) {
 			throw new IllegalArgumentException("You can't use negative");
@@ -174,9 +188,9 @@ public abstract class Engine extends JFrame implements Runnable {
 	 * Removes the score if the score is more than 0
 	 * @param reduceScore Removes the score
 	 * @throws IllegalArgumentException When using negatives to <code>removeScore</code>
-	 * @since version 1.5_Alpha
+	 * @since version 1.0
 	 */
-	public void reduceScore(int reduceScore) {
+	public final void reduceScore(int reduceScore) {
 		if (score > 0) {
 			score -= reduceScore;
 		}

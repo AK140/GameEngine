@@ -36,7 +36,7 @@ public class SoundManager {
 	}
 
 	public void stopMusic() {
-		if (clip.isActive()) {
+		if (clip.isActive() || clip.isRunning()) {
 			clip.stop();
 		}
 	}
