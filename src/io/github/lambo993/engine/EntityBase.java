@@ -8,7 +8,6 @@ package io.github.lambo993.engine;
 public class EntityBase {
 
 	private int x, y, xVelocity , yVelocity;
-	private boolean isPaused = false;
 
 	/**
 	 * Gets the <code>Entity</code> X Location of the screen
@@ -68,13 +67,5 @@ public class EntityBase {
 
 	public boolean isMoving() {
 		return getXVelocity() != 0 || getYVelocity() != 0;
-	}
-
-	public boolean isPaused() {
-		return isPaused;
-	}
-
-	public void setPaused(boolean paused) {
-		isPaused = paused;
 	}
 }

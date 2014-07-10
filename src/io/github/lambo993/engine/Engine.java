@@ -7,7 +7,7 @@ import javax.swing.*;
 /**
  * A game engine
  * @author Lambo993
- * @version 1.1.0
+ * @version 1.1.3
  * @since 5/4/2014
  * @serial 5832158247289767468L
  */
@@ -50,6 +50,7 @@ public abstract class Engine extends JFrame implements Runnable {
 		BufferedImage dbImg = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics2D dbg = dbImg.createGraphics();
 		draw(dbg);
+		repaint();
 		g.drawImage(dbImg, 0, 0, this);
 	}
 
@@ -142,13 +143,16 @@ public abstract class Engine extends JFrame implements Runnable {
 	}
 
 	@Override
-	public boolean isEnabled() {
+	public final boolean isEnabled() {
 		return isEnabled;
 	}
 
-	protected abstract void onEnable();
+	protected void onEnable() {
+	}
 
-	protected abstract void onDisable() throws Exception;
+	protected void onDisable() {
+		System.exit(1);
+	}
 
 	/**
 	 * Gets the score
